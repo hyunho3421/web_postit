@@ -16,38 +16,40 @@
     <br />
 
     <div class="well">
-        <form role="form" action="/login">
+        <form role="form">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
             <div class="form-group">
                 <label for="id">ID:</label>
-                <input type="text" class="form-control" id="id" name="id">
+                <input type="text" class="form-control" name="id" id="id">
             </div>
+
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <label for="password">PASSWORD:</label>
+                <input type="password" class="form-control" name="password" id="password"></input>
             </div>
 
-
-            <div class="row">
-                <div class="col-md-4 text-left">
-                    <div class="checkbox">
-                            <label><input id = "remember_me" name ="remember_me" type = "checkbox"/>
-                                Remember me &nbsp;/&nbsp; <a href="/signup">Sign Up</a></label>
-                    </div>
-                </div>
-                <div class="col-md-8 text-right">
-                    <button class="btn btn-default" id="btnLogin">Sign In</button>
-                </div>
+            <div class="form-group">
+                <label for="name">NAME:</label>
+                <input type="text" class="form-control" name="name" id="name">
             </div>
 
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <div class="form-group">
+                <label for="email">EMAIL:</label>
+                <input type="text" class="form-control" name="email" id="email">
+            </div>
         </form>
-    </div>
 
+        <div align="right" class="list-group">
+            <button class="btn btn-primary" type="submit" id="btnSignUp">Sign Up</button>
+            <button class="btn btn-default" type="submit" id="btnSignIn">Sing In</button>
+        </div>
+    </div>
 </div>
 
 <script src="/resources/js/jquery-3.2.1.js" ></script>
 <script src="/resources/js/bootstrap.js" ></script>
-<script src="/static/login/signin.js"></script>
+<script src="/static/login/signup.js"></script>
 <script>
 </script>
 </body>
