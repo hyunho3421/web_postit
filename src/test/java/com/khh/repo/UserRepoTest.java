@@ -47,7 +47,7 @@ public class UserRepoTest {
     }
 
     public void compareUser(String id) {
-        User findUser = userRepo.find(id);
+        User findUser = userRepo.findByID(id);
 
         assertThat(user.getId(), is(findUser.getId()));
         assertThat(user.getPassword(), is(findUser.getPassword()));

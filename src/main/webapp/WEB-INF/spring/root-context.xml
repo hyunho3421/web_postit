@@ -25,4 +25,5 @@
 	</bean>
 
 	<context:component-scan base-package="com.khh.repo" />
+	<context:component-scan base-package="com.khh.service" />
 </beans>

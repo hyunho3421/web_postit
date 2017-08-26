@@ -12,7 +12,7 @@ public interface UserRepo {
 	void update();
 	void delete(String id);
 	void delete();
-	User find(String id);
+	User findByID(String id);
 	List<User> findAll();
 	int count(); 
 }

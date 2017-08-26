@@ -41,8 +41,8 @@ public class UserRepoImpl implements UserRepo{
 	}
 
 	@Override
-	public User find(String id) {
-		return sqlSession.selectOne(namespace + ".find", id);
+	public User findByID(String id) {
+		return sqlSession.selectOne(namespace + ".findByID", id);
 	}
 
 	@Override

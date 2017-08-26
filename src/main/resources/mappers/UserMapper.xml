@@ -11,7 +11,7 @@
 		select * from User
 	</select>
 	
-	<select id="find" resultType="User">
+	<select id="findByID" resultType="User">
 		select * from User where id = #{id}
 	</select>
 	

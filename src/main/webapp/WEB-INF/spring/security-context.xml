@@ -12,30 +12,26 @@
 		<headers>
 			<frame-options policy="SAMEORIGIN"/>
 		</headers>
-		<access-denied-handler error-page="/bbs/list" />
+		<access-denied-handler error-page="/signin" />
 
-		<intercept-url pattern="/user/login" access="isAnonymous()" />
-		<intercept-url pattern="/bbs/list" access="permitAll" />
+		<intercept-url pattern="/signin" access="isAnonymous()" />
+		<intercept-url pattern="/" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/static/**" access="permitAll" />
-		<intercept-url pattern="/bbs/register" access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/bbs/remove" access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/bbs/modify" access="hasRole('ROLE_USER')" />
 
-		<form-login login-page="/user/login"
-					login-processing-url="/j_spring_security_check"
+		<form-login login-page="/signin"
 					username-parameter="id"
 					password-parameter="password"
-					authentication-failure-url="/user/login?error"
-					authentication-success-handler-ref="loginHandler"
+					default-target-url="/"
+					authentication-failure-url="/signin?error"
 					always-use-default-target='false' />
 
 		<logout invalidate-session="true" logout-url="/logout" logout-success-url="/user/logout"
 				delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
 
-		<remember-me remember-me-parameter="_spring_security_remember_me" token-validity-seconds="604800"/>
+		<remember-me remember-me-parameter="remember_me" token-validity-seconds="604800"/>
 		<!-- enable csrf protection -->
-		<!--<csrf/>-->
+		<csrf />
 	</http>
 
 
@@ -44,8 +40,5 @@
 	</authentication-manager>
 
 	<beans:bean id="userDetailService" class="com.khh.service.UserDetailService">
-	</beans:bean>
-
-	<beans:bean id="loginHandler" class="com.khh.com.khh.handler.CustomLoginSuccessHandler">
 	</beans:bean>
 </beans:beans>
