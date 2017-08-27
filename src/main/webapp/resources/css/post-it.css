@@ -1,0 +1,39 @@
+.post-it {
+    float: left;
+    min-width: 150px;
+    min-height: 150px;
+    background-color: #FFD700;
+    border: 1px solid black;
+    box-shadow: 2px 2px 2px;
+    margin: 5px;
+    position: absolute;
+    /*cursor: move;*/
+}
+
+.post-it .header {
+    background-color: #DAA520;
+    padding: 0px 0px 0px 0px;
+    cursor: move;
+}
+
+.post-it .header .content {
+    padding: 5px 0px 5px 10px;
+}
+
+.post-it .header .content .remove {
+    margin-right: 10px;
+    display: inline;    /* div 줄봐꿈 방지 */
+    float: right;
+    cursor: pointer;
+}
+
+.post-it .header .content .plus {
+    display: inline;    /* div 줄봐꿈 방지 */
+    /*float: left;*/
+    cursor: pointer;
+}
+
+.post-it .content {
+    padding: 10px 0px 0px 20px;
+}
+

@@ -16,5 +16,5 @@ $(document).ready(function () {
             formObj.attr("action", "/login");
             formObj.submit();
         }
-    })
+    });
 });
