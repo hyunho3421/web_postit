@@ -22,18 +22,36 @@
 
 .post-it .header .content .remove {
     margin-right: 10px;
-    display: inline;    /* div 줄봐꿈 방지 */
+    display: inline; /* div 줄봐꿈 방지 */
     float: right;
     cursor: pointer;
 }
 
 .post-it .header .content .plus {
-    display: inline;    /* div 줄봐꿈 방지 */
+    display: inline; /* div 줄봐꿈 방지 */
     /*float: left;*/
     cursor: pointer;
 }
 
-.post-it .content {
-    padding: 10px 0px 0px 20px;
+.post-it .header .content .modify {
+    display: inline; /* div 줄봐꿈 방지 */
+    cursor: pointer;
 }
 
+.post-it .header .content .save {
+    display: inline; /* div 줄봐꿈 방지 */
+    cursor: pointer;
+}
+
+.post-it .header .content .cog {
+    display: inline; /* div 줄봐꿈 방지 */
+    cursor: pointer;
+}
+
+.post-it .content {
+    padding: 5px 5px 5px 5px;
+}
+
+.ui-resizable-helper {
+    border: 2px dotted #00F;
+}
