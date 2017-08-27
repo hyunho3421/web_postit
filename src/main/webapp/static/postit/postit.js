@@ -66,16 +66,6 @@ $(document).ready(function () {
     $(".post-it_editor").toggle();
 });
 
-// Postit 클래스 생성
-// function Postit() {
-//     this.header_color;
-//     this.content_color;
-//     this.width;
-//     this.height;
-//     this.pos_top;
-//     this.pos_left;
-// }
-
 // 이벤트 바인딩 함수
 function postit_event_binding(last_postit) {
 
@@ -117,13 +107,17 @@ function postit_event_binding(last_postit) {
     });
 
     last_postit.find(".save").on("click", function () {
+
+        var postit = $(this).closest(".post-it");
         $(this).toggle();
-        $(this).closest(".post-it").find(".modify").toggle();
-        $(this).closest(".post-it").find(".post-it_editor").toggle();
+        postit.find(".modify").toggle();
+        postit.find(".post-it_editor").toggle();
+
+        save4ajax(postit);
     });
 
-    last_postit.find(".cog").on("click", function () {
-        console.log("click cog class");
+    last_postit.find(".config").on("click", function () {
+        console.log("click config class");
     });
 }
 
@@ -146,7 +140,7 @@ function create_postit() {
         + "<span class='glyphicon glyphicon-ok'></span>"
         + "</div>"
         + "&nbsp"
-        + "<dic class='cog'>"
+        + "<dic class='config'>"
         + "<span class='glyphicon glyphicon-cog'></span>"
         + "</dic>"
         + "<div class='remove'>"
@@ -170,36 +164,33 @@ function create_postit() {
     postit_event_binding(last_postit);
 }
 
-function create_postit_ajax() {
+function save4ajax(postit) {
 
-    // $.ajax({
-    //     url: "",
-    //     type: "POST",
-    //     data: {
-    //
-    //     },
-    //     dataType: "",
-    //     success: function () {
-    //
-    //     }
-    // });
+    var csrf = "?" + $("#csrf").attr("name") + "=" + $("#csrf").val();
+    var content = postit.find("#ckeditor").val()
+    var pos = postit.position();
+    var pos_x = pos.left;
+    var pos_y = pos.top;
 
+    console.log(csrf);
+    console.log(pos_x);
+    console.log(pos_y);
 
+    $.ajax({
+        url: "/postit/save" + csrf,
+        type: "POST",
+        headers : {
+            "Content-Type" : "application/json",
+            "X-HTTP-Method-Override" : "POST"
+        },
+        data: JSON.stringify({
+            content : content,
+            pos_x : pos_x,
+            pos_y : pos_y
+        }),
+        success: function () {
+
+        }
+    });
 }
 
-/*
- *
- *
- * // 추가 버튼 누른 포스트잇 위치 구하기
- var pos = $(this).position();
- var x = pos.left;
- var y = pos.top;
-
-
- // 추가 버튼 누른 포스트잇 크기 구하기
- var postit = $(this).closest(".post-it");
- var width = postit.outerWidth();
- var height = postit.outerHeight();
- *
- *
- * */

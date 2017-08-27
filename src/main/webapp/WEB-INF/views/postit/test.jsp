@@ -29,7 +29,7 @@
                 <div class="save" style="display: none;">
                     <span class="glyphicon glyphicon-ok"></span>
                 </div>
-                <dic class="cog">
+                <dic class="config">
                     <span class="glyphicon glyphicon-cog"></span>
                 </dic>
                 <div class="remove">
@@ -38,16 +38,21 @@
             </div>
         </div>
         <div class="content">
-            <form role="form" method="post" action="" class="post-it_editor">
+            <div class="post-it_editor">
+                <textarea name="content" id="ckeditor" cols="15" rows="5"></textarea>
+            </div>
+            <form>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrf"/>
-
-                <div class="form-group">
-                    <textarea name="content" id="ckeditor" cols="15" rows="5"></textarea>
-                </div>
             </form>
+            <%--<form role="form" method="post" action="" class="post-it_editor">--%>
+                <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrf"/>--%>
+
+                <%--<div class="form-group">--%>
+                    <%--<textarea name="content" id="ckeditor" cols="15" rows="5"></textarea>--%>
+                <%--</div>--%>
+            <%--</form>--%>
         </div>
     </div>
-
 </div>
 
 <script src="/resources/js/jquery-3.2.1.js"></script>
