@@ -72,6 +72,13 @@ function postit_event_binding(last_postit) {
         $(this).closest(".post-it").find(".mod_config").toggle();
     });
 
+    last_postit.find(".calendar").on("click", function () {
+        // TODO: 달력 눌렀을때 날짜 입력 기능 구현
+        // TODO: datepicker로 구현
+        // TODO: 입력된 날짜는 content 최상단에 보이게 함.
+        // TODO: 참고 : https://zetawiki.com/wiki/JQuery_UI_%EB%82%A0%EC%A7%9C%EC%84%A0%ED%83%9D%EA%B8%B0_datepicker
+    });
+
     // 포스트잇 이동 시 저장
     last_postit.on("dragstop", function () {
         save4ajax($(this));
@@ -126,12 +133,15 @@ function create_postit() {
         + "<div class='config'>"
         + "<span class='glyphicon glyphicon-cog'></span>"
         + "</div>"
+        + "&nbsp"
+        + "<div class='calendar'>"
+        + "<span class='glyphicon glyphicon-calendar'></span>"
+        + "</div>"
         + "<div class='remove'>"
         + "<span class='glyphicon glyphicon-remove'></span>"
         + "</div>"
         + "</div>"
         + "</div>"
-
         + "<div class='mod_config' style='display:none;'>"
         + "<div class='orange'>"
         + "</div>"
@@ -143,7 +153,6 @@ function create_postit() {
         + "</div>"
         + "&nbsp"
         + "</div>"
-
         + "<div class='content'>"
         + "<div class='post-it_editor' style='display: none;'>"
         + "<textarea name='content' id='ckeditor' cols='15' rows='5'></textarea>"
@@ -277,12 +286,15 @@ function list4Ajax() {
                     + "<div class='config'>"
                     + "<span class='glyphicon glyphicon-cog'></span>"
                     + "</div>"
+                    + "&nbsp"
+                    + "<div class='calendar'>"
+                    + "<span class='glyphicon glyphicon-calendar'></span>"
+                    + "</div>"
                     + "<div class='remove'>"
                     + "<span class='glyphicon glyphicon-remove'></span>"
                     + "</div>"
                     + "</div>"
                     + "</div>"
-
                     + "<div class='mod_config' style='display:none;'>"
                     + "<div class='orange'>"
                     + "</div>"
@@ -294,7 +306,6 @@ function list4Ajax() {
                     + "</div>"
                     + "&nbsp"
                     + "</div>"
-
                     + "<div class='content'>"
                     + "<div class='post-it_editor' style='display: none;'>"
                     + "<textarea name='content' id='ckeditor' cols='15' rows='5'>" + this.content + "</textarea>"

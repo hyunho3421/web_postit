@@ -54,6 +54,11 @@
     cursor: pointer;
 }
 
+.post-it .header .content .calendar {
+    display: inline; /* div 줄봐꿈 방지 */
+    cursor: pointer;
+}
+
 .color-box {
     display: inline-block; /* div 줄봐꿈 방지 */
     cursor: pointer;
