@@ -15,43 +15,14 @@
 </head>
 <body>
 <div class="container">
+    <%-- csrf --%>
+    <form>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrf"/>
+    </form>
     <br/>
 
-    <div class="post-it">
-        <div class="header">
-            <div class="content">
-                <div class="plus">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </div>
-                <div class="modify">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </div>
-                <div class="save" style="display: none;">
-                    <span class="glyphicon glyphicon-ok"></span>
-                </div>
-                <dic class="config">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </dic>
-                <div class="remove">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="post-it_editor">
-                <textarea name="content" id="ckeditor" cols="15" rows="5"></textarea>
-            </div>
-            <form>
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrf"/>
-            </form>
-            <%--<form role="form" method="post" action="" class="post-it_editor">--%>
-                <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrf"/>--%>
+    <div class="color">
 
-                <%--<div class="form-group">--%>
-                    <%--<textarea name="content" id="ckeditor" cols="15" rows="5"></textarea>--%>
-                <%--</div>--%>
-            <%--</form>--%>
-        </div>
     </div>
 </div>
 

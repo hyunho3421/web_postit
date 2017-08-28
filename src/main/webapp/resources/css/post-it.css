@@ -2,7 +2,7 @@
     float: left;
     min-width: 150px;
     min-height: 150px;
-    background-color: #FFD700;
+    /*background-color: #FFD700;*/
     border: 1px solid black;
     box-shadow: 2px 2px 2px;
     margin: 5px;
@@ -11,13 +11,19 @@
 }
 
 .post-it .header {
-    background-color: #DAA520;
+    /*background-color: #FFB700;*/
     padding: 0px 0px 0px 0px;
     cursor: move;
 }
 
 .post-it .header .content {
-    padding: 5px 0px 5px 10px;
+    padding: 5px 0px 0px 10px;
+}
+
+.post-it .mod_config {
+    background-color: white;
+    padding: 5px 0px 0px 10px;
+    cursor: move;
 }
 
 .post-it .header .content .remove {
@@ -43,15 +49,47 @@
     cursor: pointer;
 }
 
-.post-it .header .content .cog {
+.post-it .header .content .config {
     display: inline; /* div 줄봐꿈 방지 */
     cursor: pointer;
 }
 
-.post-it .content {
-    padding: 5px 5px 5px 5px;
+.color-box {
+    display: inline-block; /* div 줄봐꿈 방지 */
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    /*border: 1px #FFD700;*/
+    /*background-color: #FFD700;*/
 }
 
-.ui-resizable-helper {
-    border: 2px dotted #00F;
+.orange {
+    display: inline-block; /* div 줄봐꿈 방지 */
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    border: 1px #FFD700;
+    background-color: #FFD700;
+}
+
+.blue {
+    display: inline-block; /* div 줄봐꿈 방지 */
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    border: 1px #5CD1E5;
+    background-color: #5CD1E5;
+}
+
+.green {
+    display: inline-block; /* div 줄봐꿈 방지 */
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    border: 1px #86E57F;
+    background-color: #86E57F;
+}
+
+.post-it .content {
+    padding: 5px 5px 5px 5px;
 }
