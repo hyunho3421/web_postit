@@ -98,3 +98,15 @@
 .post-it .content {
     padding: 5px 5px 5px 5px;
 }
+
+.post-it_editor textarea {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    resize:none;
+    overflow: auto;
+}
+
+.post-it .content .post-it_view {
+    word-break: break-all;
+}

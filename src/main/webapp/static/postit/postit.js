@@ -2,8 +2,12 @@
  * Created by hyunhokim on 2017. 6. 6..
  */
 var css_postit_idx = 1;
+var color;
 
 $(document).ready(function () {
+
+    // color Class 생성
+    color = new Color();
 
     list4Ajax();
 
@@ -33,11 +37,17 @@ function postit_event_binding(last_postit) {
     });
 
     last_postit.find(".modify").on("click", function () {
-        $(this).closest(".post-it").find(".post-it_editor").toggle();
-        $(this).closest(".post-it").find(".post-it_view").toggle();
-        $(this).closest(".post-it").find(".save").toggle();
-        // 수정 버튼 토글
-        $(this).toggle();
+        var postit = $(this).closest(".post-it");
+        postit.find(".post-it_editor").toggle();
+        postit.find(".post-it_view").toggle();
+        postit.find(".save").toggle();     //저장 버튼 토글
+        $(this).toggle();                                       // 수정 버튼 토글
+
+        // textarea 크기 포스트잇 크기에 맞추기
+        postit.find(".post-it_editor textarea").css({
+            width: postit.width() - 10 + "px",
+            height: postit.height() - 40 + "px"
+        });
     });
 
     last_postit.find(".remove").on("click", function () {
@@ -56,12 +66,10 @@ function postit_event_binding(last_postit) {
     });
 
     last_postit.find(".save").on("click", function () {
-
-        // TODO: textarea 에  /n 을 <br> 로 수정 후 저장하도록
-        // TODO: http://itzone.tistory.com/276 참고
         var postit = $(this).closest(".post-it");
-        $(this).toggle();
-        postit.find(".modify").toggle();
+
+        $(this).toggle();                   // 저장 버튼 토글
+        postit.find(".modify").toggle();    // 수정 버튼 토글
         postit.find(".post-it_editor").toggle();
         postit.find(".post-it_view").toggle();
 
@@ -87,79 +95,31 @@ function postit_event_binding(last_postit) {
     // 포스트잇 사이즈 변경 시 저장
     last_postit.on("resizestop", function () {
         save4ajax($(this));
+
+        //포스트잇 사이즈 맞춰서 textarea 사이즈도 변경
+        $(this).find(".post-it_editor textarea").css({
+            width: $(this).width() - 10 + "px",
+            height: $(this).height() - 40 + "px"
+        });
     });
 
     last_postit.find(".blue").on("click", function () {
-        var postit = $(this).closest(".post-it")
-        postit.closest(".post-it").css("background-color", "#5CD1E5");
-        postit.closest(".post-it").find(".header").css("background-color", "#5CB1E5");
-        save4ajax(postit);
+        color.changeColor($(this));
     });
 
     last_postit.find(".orange").on("click", function () {
-        var postit = $(this).closest(".post-it")
-        postit.closest(".post-it").css("background-color", "#FFD700");
-        postit.closest(".post-it").find(".header").css("background-color", "#FFB700");
-        save4ajax(postit);
+        color.changeColor($(this));
     });
 
     last_postit.find(".green").on("click", function () {
-        var postit = $(this).closest(".post-it")
-        postit.closest(".post-it").css("background-color", "#86E57F");
-        postit.closest(".post-it").find(".header").css("background-color", "#86C57F");
-        save4ajax(postit);
+        color.changeColor($(this));
     });
 }
 
 // 포스트잇 생성 함수
 function create_postit() {
-    // 새 포스트 잇 생성
-    var new_postit = "";
-    new_postit +=
-        "<div class='post-it' data-id=''>"
-        + "<div class='header'>"
-        + "<div class='content'>"
-        + "<div class='plus'>"
-        + "<span class='glyphicon glyphicon-plus'></span>"
-        + "</div>"
-        + "&nbsp"
-        + "<div class='modify'>"
-        + "<span class='glyphicon glyphicon-pencil'></span>"
-        + "</div>"
-        + "<div class='save' style='display: none;'>"
-        + "<span class='glyphicon glyphicon-ok'></span>"
-        + "</div>"
-        + "&nbsp"
-        + "<div class='config'>"
-        + "<span class='glyphicon glyphicon-cog'></span>"
-        + "</div>"
-        + "&nbsp"
-        + "<div class='calendar'>"
-        + "<span class='glyphicon glyphicon-calendar'></span>"
-        + "</div>"
-        + "<div class='remove'>"
-        + "<span class='glyphicon glyphicon-remove'></span>"
-        + "</div>"
-        + "</div>"
-        + "</div>"
-        + "<div class='mod_config' style='display:none;'>"
-        + "<div class='orange'>"
-        + "</div>"
-        + "&nbsp"
-        + "<div class='blue'>"
-        + "</div>"
-        + "&nbsp"
-        + "<div class='green'>"
-        + "</div>"
-        + "&nbsp"
-        + "</div>"
-        + "<div class='content'>"
-        + "<div class='post-it_editor' style='display: none;'>"
-        + "<textarea name='content' id='ckeditor' cols='15' rows='5'></textarea>"
-        + "</div>"
-        + "<div class='post-it_view'>"
-        + "</div>"
-        + "</div>";
+    // 새 포스트 잇
+    var new_postit = makePostit(this);
 
     $(".container").append(new_postit);
 
@@ -201,7 +161,8 @@ function save4ajax(postit) {
             height: height
         }),
         success: function () {
-            postit.find(".post-it_view").html(content);
+            // textarea로 저장된 값에서 \n을 <br> 태그로 변환
+            postit.find(".post-it_view").html(content.replace(/\r\n|\r|\n/g, "<br />"));
         }
     });
 }
@@ -267,53 +228,7 @@ function list4Ajax() {
         } else {
 
             $(data.list).each(function () {
-                var postit = "";
-                postit +=
-                    "<div class='post-it' data-id='" + this.id + "'>"
-                    + "<div class='header'>"
-                    + "<div class='content'>"
-                    + "<div class='plus'>"
-                    + "<span class='glyphicon glyphicon-plus'></span>"
-                    + "</div>"
-                    + "&nbsp"
-                    + "<div class='modify'>"
-                    + "<span class='glyphicon glyphicon-pencil'></span>"
-                    + "</div>"
-                    + "<div class='save' style='display: none;'>"
-                    + "<span class='glyphicon glyphicon-ok'></span>"
-                    + "</div>"
-                    + "&nbsp"
-                    + "<div class='config'>"
-                    + "<span class='glyphicon glyphicon-cog'></span>"
-                    + "</div>"
-                    + "&nbsp"
-                    + "<div class='calendar'>"
-                    + "<span class='glyphicon glyphicon-calendar'></span>"
-                    + "</div>"
-                    + "<div class='remove'>"
-                    + "<span class='glyphicon glyphicon-remove'></span>"
-                    + "</div>"
-                    + "</div>"
-                    + "</div>"
-                    + "<div class='mod_config' style='display:none;'>"
-                    + "<div class='orange'>"
-                    + "</div>"
-                    + "&nbsp"
-                    + "<div class='blue'>"
-                    + "</div>"
-                    + "&nbsp"
-                    + "<div class='green'>"
-                    + "</div>"
-                    + "&nbsp"
-                    + "</div>"
-                    + "<div class='content'>"
-                    + "<div class='post-it_editor' style='display: none;'>"
-                    + "<textarea name='content' id='ckeditor' cols='15' rows='5'>" + this.content + "</textarea>"
-                    + "</div>"
-                    + "<div class='post-it_view'>"
-                    + this.content
-                    + "</div>"
-                    + "</div>";
+                var postit = makePostit(this);
 
                 $(".container").append(postit);
                 var last_postit = $(".container").children(":last");
@@ -329,5 +244,97 @@ function list4Ajax() {
             });
         }
     });
+}
 
+function makePostit(data) {
+    var postit = "";
+    postit +=
+        "<div class='post-it' data-id='" + ((data.id == undefined) ? '' : data.id) + "'>"
+        + "<div class='header'>"
+        + "<div class='content'>"
+        + "<div class='plus'>"
+        + "<span class='glyphicon glyphicon-plus'></span>"
+        + "</div>"
+        + "&nbsp"
+        + "<div class='modify'>"
+        + "<span class='glyphicon glyphicon-pencil'></span>"
+        + "</div>"
+        + "<div class='save' style='display: none;'>"
+        + "<span class='glyphicon glyphicon-ok'></span>"
+        + "</div>"
+        + "&nbsp"
+        + "<div class='config'>"
+        + "<span class='glyphicon glyphicon-cog'></span>"
+        + "</div>"
+        + "&nbsp"
+        + "<div class='calendar'>"
+        + "<span class='glyphicon glyphicon-calendar'></span>"
+        + "</div>"
+        + "<div class='remove'>"
+        + "<span class='glyphicon glyphicon-remove'></span>"
+        + "</div>"
+        + "</div>"
+        + "</div>"
+        + "<div class='mod_config' style='display:none;'>"
+        + "<div class='orange'>"
+        + "</div>"
+        + "&nbsp"
+        + "<div class='blue'>"
+        + "</div>"
+        + "&nbsp"
+        + "<div class='green'>"
+        + "</div>"
+        + "&nbsp"
+        + "</div>"
+        + "<div class='content'>"
+        + "<div class='post-it_editor' style='display: none;'>"
+        + "<textarea name='content' id='ckeditor' cols='15' rows='5'>"
+        + ((data.content == undefined) ? '' : data.content)
+        + "</textarea>"
+        + "</div>"
+        + "<div class='post-it_view'>"
+        + ((data.content == undefined) ? '' : data.content.replace(/\r\n|\r|\n/g, "<br />"))
+        + "</div>"
+        + "</div>";
+
+    return postit;
+}
+
+
+// Color 클래스
+function Color() {
+    this.h_color = "#FFB700";
+    this.c_color = "#FFD700";
+
+    this.orange = function () {
+        this.h_color = "#FFB700";
+        this.c_color = "#FFD700";
+    }
+
+    this.blue = function () {
+        this.h_color = "#5CB1E5";
+        this.c_color = "#5CD1E5";
+    }
+
+    this.green = function () {
+        this.h_color = "#86C57F";
+        this.c_color = "#86E57F";
+    }
+
+    this.changeColor = function (obj) {
+        var selectColor = obj.attr("class");
+
+        if (selectColor == "orange") {
+            this.orange();
+        } else if (selectColor == "blue") {
+            this.blue();
+        } else if (selectColor == "green") {
+            this.green();
+        }
+
+        var postit = obj.closest(".post-it");
+        postit.closest(".post-it").css("background-color", this.c_color);
+        postit.closest(".post-it").find(".header").css("background-color", this.h_color);
+        save4ajax(postit);
+    }
 }

@@ -20,10 +20,6 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrf"/>
     </form>
     <br/>
-
-    <div class="color">
-
-    </div>
 </div>
 
 <script src="/resources/js/jquery-3.2.1.js"></script>
