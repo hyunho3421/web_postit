@@ -26,6 +26,18 @@
     cursor: move;
 }
 
+.post-it .set_date {
+    background-color: transparent;
+    padding: 5px 0px 0px 5px;
+    cursor: move;
+}
+
+.post-it .set_date input {
+    background-color: transparent;
+    width: 80px;
+
+}
+
 .post-it .header .content .remove {
     margin-right: 10px;
     display: inline; /* div 줄봐꿈 방지 */

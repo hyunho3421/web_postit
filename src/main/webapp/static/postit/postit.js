@@ -16,10 +16,19 @@ $(document).ready(function () {
     //     // filebrowserUploadUrl:'/uploadCkeditor' + csrf
     // });
 
+
 });
 
 // 이벤트 바인딩 함수
 function postit_event_binding(last_postit) {
+
+    $( "#datepicker" ).datepicker({
+        showOn: "button",
+        buttonImage: "/resources/img/calendar.gif",
+        buttonImageOnly: true,
+        buttonText: "Select date",
+        dateFormat:"yy/mm/dd"
+    });
 
     last_postit
         .resizable()
@@ -84,9 +93,9 @@ function postit_event_binding(last_postit) {
         $(this).closest(".post-it").find(".mod_config").toggle();
     });
 
-    // last_postit.find(".calendar").datepicker({
-    //     dateFormat: 'yy/mm/dd'
-    // });
+    last_postit.find(".calendar").on("click", function () {
+        $(this).closest(".post-it").find(".set_date").toggle();
+    });
 
     // 포스트잇 이동 시 저장
     last_postit.on("dragstop", function () {
@@ -298,6 +307,11 @@ function makePostit(data) {
         + "</div>"
         + "&nbsp"
         + "</div>"
+
+        + "<div class='set_date' style='display:none;'>"
+        + "Date: <input type='text' id='datepicker' dis/>"
+        + "</div>"
+
         + "<div class='content'>"
         + "<div class='post-it_editor' style='display: none;'>"
         + "<textarea name='content' id='ckeditor' cols='15' rows='5'>"
