@@ -80,12 +80,9 @@ function postit_event_binding(last_postit) {
         $(this).closest(".post-it").find(".mod_config").toggle();
     });
 
-    last_postit.find(".calendar").on("click", function () {
-        // TODO: 달력 눌렀을때 날짜 입력 기능 구현
-        // TODO: datepicker로 구현
-        // TODO: 입력된 날짜는 content 최상단에 보이게 함.
-        // TODO: 참고 : https://zetawiki.com/wiki/JQuery_UI_%EB%82%A0%EC%A7%9C%EC%84%A0%ED%83%9D%EA%B8%B0_datepicker
-    });
+    // last_postit.find(".calendar").datepicker({
+    //     dateFormat: 'yy/mm/dd'
+    // });
 
     // 포스트잇 이동 시 저장
     last_postit.on("dragstop", function () {
@@ -99,6 +96,10 @@ function postit_event_binding(last_postit) {
         //포스트잇 사이즈 맞춰서 textarea 사이즈도 변경
         $(this).find(".post-it_editor textarea").css({
             width: $(this).width() - 10 + "px",
+            height: $(this).height() - 40 + "px"
+        });
+
+        $(this).find(".post-it_view").css({
             height: $(this).height() - 40 + "px"
         });
     });
@@ -174,8 +175,8 @@ function create4ajax(postit) {
     var pos = postit.position();
     var pos_x = pos.left;
     var pos_y = pos.top;
-    var h_color = "#FFB700";
-    var c_color = "#FFD700";
+    var h_color = color.h_color;
+    var c_color = color.c_color;
 
     $.ajax({
         url: "/postit/create" + csrf,
@@ -246,6 +247,7 @@ function list4Ajax() {
     });
 }
 
+//포스트잇 생성
 function makePostit(data) {
     var postit = "";
     postit +=

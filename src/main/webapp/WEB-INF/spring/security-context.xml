@@ -32,6 +32,12 @@
 				delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
 
 		<remember-me remember-me-parameter="remember_me" token-validity-seconds="604800"/>
+
+		<!-- 동시 세션 제어 -->
+		<session-management>
+			<concurrency-control max-sessions="1" expired-url="/signin?error=duplicatie_login"/>
+		</session-management>
+
 		<!-- enable csrf protection -->
 		<csrf />
 	</http>
@@ -43,4 +49,5 @@
 
 	<beans:bean id="userDetailService" class="com.khh.service.UserDetailService">
 	</beans:bean>
+
 </beans:beans>

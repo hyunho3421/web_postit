@@ -109,4 +109,6 @@
 
 .post-it .content .post-it_view {
     word-break: break-all;
+    overflow-y: auto;
+
 }
