@@ -48,6 +48,10 @@ function postit_event_binding(last_postit) {
             width: postit.width() - 10 + "px",
             height: postit.height() - 40 + "px"
         });
+
+        postit.find(".post-it_view").css({
+            height: postit.height() - 40 + "px"
+        });
     });
 
     last_postit.find(".remove").on("click", function () {
@@ -240,7 +244,13 @@ function list4Ajax() {
                     "width": this.width,
                     "height": this.height
                 });
+
                 last_postit.find(".header").css("background-color", this.h_color);
+
+                last_postit.find(".post-it_view").css({
+                    height: this.height - 40 + "px"
+                });
+
                 postit_event_binding(last_postit);
             });
         }
