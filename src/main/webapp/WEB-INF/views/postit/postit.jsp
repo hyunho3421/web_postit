@@ -15,6 +15,9 @@
 </head>
 <body>
 <div class="container">
+    <jsp:include page="../header.jsp" />
+    <br />
+
     <%-- csrf --%>
     <form>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrf"/>
@@ -27,8 +30,6 @@
 <script src="/resources/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 <script src="/resources/js/bootstrap.js"></script>
 <script src="/static/postit/postit.js"></script>
-<script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
-<script>
-</script>
+<script src="/static/login/logout.js"></script>
 </body>
 </html>

@@ -1,35 +1,20 @@
 /**
- * Created by hyunhokim on 2017. 6. 6..
+ * Created by hyunhokim on 2017. 8. 28..
  */
+$('head').append('<script src=\'/static/class/Color.js\'><\/script>');
+
 var css_postit_idx = 1;
 var color;
 
 $(document).ready(function () {
-
     // color Class 생성
     color = new Color();
 
     list4Ajax();
-
-    // TODO: CKEDITOR 추가 예정.
-    // CKEDITOR.replace('ckeditor', {
-    //     // filebrowserUploadUrl:'/uploadCkeditor' + csrf
-    // });
-
-
 });
 
 // 이벤트 바인딩 함수
 function postit_event_binding(last_postit) {
-
-    $( "#datepicker" ).datepicker({
-        showOn: "button",
-        buttonImage: "/resources/img/calendar.gif",
-        buttonImageOnly: true,
-        buttonText: "Select date",
-        dateFormat:"yy/mm/dd"
-    });
-
     last_postit
         .resizable()
         .draggable({
@@ -53,10 +38,17 @@ function postit_event_binding(last_postit) {
         $(this).toggle();                                       // 수정 버튼 토글
 
         // textarea 크기 포스트잇 크기에 맞추기
-        postit.find(".post-it_editor textarea").css({
-            width: postit.width() - 10 + "px",
-            height: postit.height() - 40 + "px"
-        });
+        if (postit.find(".post-it_editor textarea").height >= postit.find("content").height) {
+            postit.find(".post-it_editor textarea").css({
+                width: postit.width() - 10 + "px",
+                height: postit.height() - 65 + "px"
+            });
+        } else {
+            postit.find(".post-it_editor textarea").css({
+                width: postit.width() - 10 + "px",
+                height: postit.height() - 40 + "px"
+            });
+        }
 
         postit.find(".post-it_view").css({
             height: postit.height() - 40 + "px"
@@ -87,14 +79,34 @@ function postit_event_binding(last_postit) {
         postit.find(".post-it_view").toggle();
 
         save4ajax(postit);
+
+        if (postit.find(".post-it_view").height >= postit.find("content").height) {
+            postit.find(".post-it_view").css({
+                height: postit.height() - 65 + "px"
+            });
+        }
     });
 
     last_postit.find(".config").on("click", function () {
-        $(this).closest(".post-it").find(".mod_config").toggle();
-    });
+        var postit = $(this).closest(".post-it");
 
-    last_postit.find(".calendar").on("click", function () {
-        $(this).closest(".post-it").find(".set_date").toggle();
+        if (postit.find(".mod_config").css("display") == 'block') {
+            postit.find(".post-it_editor textarea").css({
+                height: postit.height() - 40 + "px"
+            });
+            postit.find(".post-it_view").css({
+                height: postit.height() - 40 + "px"
+            });
+        } else {
+            postit.find(".post-it_editor textarea").css({
+                height: postit.height() - 65 + "px"
+            });
+            postit.find(".post-it_view").css({
+                height: postit.height() - 65 + "px"
+            });
+        }
+
+        postit.find(".mod_config").toggle();
     });
 
     // 포스트잇 이동 시 저장
@@ -105,6 +117,10 @@ function postit_event_binding(last_postit) {
     // 포스트잇 사이즈 변경 시 저장
     last_postit.on("resizestop", function () {
         save4ajax($(this));
+
+        if (last_postit.find(".mod_config").css("display") == 'block') {
+            last_postit.find(".mod_config").toggle();
+        }
 
         //포스트잇 사이즈 맞춰서 textarea 사이즈도 변경
         $(this).find(".post-it_editor textarea").css({
@@ -117,15 +133,7 @@ function postit_event_binding(last_postit) {
         });
     });
 
-    last_postit.find(".blue").on("click", function () {
-        color.changeColor($(this));
-    });
-
-    last_postit.find(".orange").on("click", function () {
-        color.changeColor($(this));
-    });
-
-    last_postit.find(".green").on("click", function () {
+    last_postit.find(".color-box").on("click", function () {
         color.changeColor($(this));
     });
 }
@@ -156,6 +164,7 @@ function save4ajax(postit) {
     var c_color = postit.css("background-color");
     var width = postit.width();
     var height = postit.height();
+    var z_idx = postit.css("z-index");
 
     $.ajax({
         url: "/postit/save" + csrf,
@@ -172,7 +181,8 @@ function save4ajax(postit) {
             h_color: h_color,
             c_color: c_color,
             width: width,
-            height: height
+            height: height,
+            z_idx:z_idx
         }),
         success: function () {
             // textarea로 저장된 값에서 \n을 <br> 태그로 변환
@@ -231,7 +241,6 @@ function remove4ajax(postit) {
 }
 
 function list4Ajax() {
-    var csrf = "?" + $("#csrf").attr("name") + "=" + $("#csrf").val();
     var url = "/postit/list";
 
     $.getJSON(url, function (data) {
@@ -260,6 +269,8 @@ function list4Ajax() {
                     height: this.height - 40 + "px"
                 });
 
+                last_postit.css("z-index", this.z_idx);
+                css_postit_idx = this.z_idx;
                 postit_event_binding(last_postit);
             });
         }
@@ -288,30 +299,28 @@ function makePostit(data) {
         + "<span class='glyphicon glyphicon-cog'></span>"
         + "</div>"
         + "&nbsp"
-        + "<div class='calendar'>"
-        + "<span class='glyphicon glyphicon-calendar'></span>"
-        + "</div>"
         + "<div class='remove'>"
         + "<span class='glyphicon glyphicon-remove'></span>"
         + "</div>"
         + "</div>"
         + "</div>"
         + "<div class='mod_config' style='display:none;'>"
-        + "<div class='orange'>"
+        + "<div class='color-box orange' id='orange'>"
         + "</div>"
         + "&nbsp"
-        + "<div class='blue'>"
+        + "<div class='color-box blue' id='blue'>"
         + "</div>"
         + "&nbsp"
-        + "<div class='green'>"
+        + "<div class='color-box green' id='green'>"
+        + "</div>"
+        + "&nbsp"
+        + "<div class='color-box red' id='red'>"
+        + "</div>"
+        + "&nbsp"
+        + "<div class='color-box gray' id='gray'>"
         + "</div>"
         + "&nbsp"
         + "</div>"
-
-        + "<div class='set_date' style='display:none;'>"
-        + "Date: <input type='text' id='datepicker' dis/>"
-        + "</div>"
-
         + "<div class='content'>"
         + "<div class='post-it_editor' style='display: none;'>"
         + "<textarea name='content' id='ckeditor' cols='15' rows='5'>"
@@ -324,43 +333,4 @@ function makePostit(data) {
         + "</div>";
 
     return postit;
-}
-
-
-// Color 클래스
-function Color() {
-    this.h_color = "#FFB700";
-    this.c_color = "#FFD700";
-
-    this.orange = function () {
-        this.h_color = "#FFB700";
-        this.c_color = "#FFD700";
-    }
-
-    this.blue = function () {
-        this.h_color = "#5CB1E5";
-        this.c_color = "#5CD1E5";
-    }
-
-    this.green = function () {
-        this.h_color = "#86C57F";
-        this.c_color = "#86E57F";
-    }
-
-    this.changeColor = function (obj) {
-        var selectColor = obj.attr("class");
-
-        if (selectColor == "orange") {
-            this.orange();
-        } else if (selectColor == "blue") {
-            this.blue();
-        } else if (selectColor == "green") {
-            this.green();
-        }
-
-        var postit = obj.closest(".post-it");
-        postit.closest(".post-it").css("background-color", this.c_color);
-        postit.closest(".post-it").find(".header").css("background-color", this.h_color);
-        save4ajax(postit);
-    }
 }

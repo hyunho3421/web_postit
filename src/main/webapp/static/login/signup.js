@@ -58,17 +58,24 @@ function validation() {
         return true;
     }
 
+    var email = $("#email").val();
+    if (!email.match(/[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/) || email.length < 1) {
+        alert("이메일을 형식에 맞게 입력해주세요.");
+
+        return true;
+    }
+
     return false;
 }
 
 
 function checkExistID() {
     var id = $("#id").val();
-    var isExist;
+    var isExist = false;
 
     $.ajax({
         type: 'get',
-        url: '/user/join/id/' + id,
+        url: '/signup/id/' + id,
         async: false,
         success: function (result) {
             if (result == 'existID') {

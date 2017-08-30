@@ -2,6 +2,8 @@ package com.khh.domain;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * Created by hyunhokim on 2017. 8. 27..
  */
@@ -16,4 +18,5 @@ public class PostIt {
     private int pos_y;
     private int width;
     private int height;
+    private int z_idx;
 }

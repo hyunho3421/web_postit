@@ -19,8 +19,8 @@
     <update id="update">
 		update PostIt
 		set
-		content = #{content}, pos_x = #{pos_x}, pos_y = #{pos_y}, c_color = #{c_color}, h_color = #{h_color},
-		width = #{width}, height = #{height}
+		content = #{content}, pos_x = #{pos_x}, pos_y = #{pos_y}, c_color = #{c_color},
+		h_color = #{h_color}, width = #{width}, height = #{height}, z_idx = #{z_idx}
 		where id = #{id}
 	</update>
 

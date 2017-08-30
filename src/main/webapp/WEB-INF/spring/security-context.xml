@@ -24,18 +24,18 @@
 		<form-login login-page="/signin"
 					username-parameter="id"
 					password-parameter="password"
-					default-target-url="/"
+					default-target-url="/postit/"
 					authentication-failure-url="/signin?error"
-					always-use-default-target='false' />
+					always-use-default-target='true' />
 
-		<logout invalidate-session="true" logout-url="/logout" logout-success-url="/user/logout"
+		<logout invalidate-session="true" logout-url="/logout" logout-success-url="/"
 				delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
 
 		<remember-me remember-me-parameter="remember_me" token-validity-seconds="604800"/>
 
 		<!-- 동시 세션 제어 -->
 		<session-management>
-			<concurrency-control max-sessions="1" expired-url="/signin?error=duplicatie_login"/>
+			<concurrency-control max-sessions="1" expired-url="/signin?error=duplicate_login"/>
 		</session-management>
 
 		<!-- enable csrf protection -->

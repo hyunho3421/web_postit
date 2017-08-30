@@ -2,19 +2,14 @@ package com.khh.postit;
 
 import com.khh.domain.PostIt;
 import com.khh.service.PostItService;
-import com.khh.util.commonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,12 +24,17 @@ public class PostItController {
 
     private static final Logger logger = LoggerFactory.getLogger(PostItController.class);
 
+    private static final String root = "postit";
+
     @Autowired
     private PostItService postItService;
 
-    @RequestMapping("/test")
-    public String test() {
-        return "/postit/test";
+    @RequestMapping("/")
+    public String test(Model model) {
+
+        model.addAttribute("root", root);
+
+        return "postit/postit";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -69,7 +69,6 @@ public class PostItController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> list() {
-        logger.info("postItList");
         ResponseEntity<Map<String, Object>> entity;
 
         try {
