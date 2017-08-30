@@ -23,8 +23,9 @@ function postit_event_binding(last_postit) {
         .mousedown(function () {    // mousedown 이벤트 생성
             $(this).css('z-index', css_postit_idx); // 클릭한 이미지만 z-index 증가시킴
             css_postit_idx++;   // 그러면 이미지가 겹칠경우 클릭한 것이 항상 위에 표시됨
-        })
-        .css('z-index', css_postit_idx);    // 생성시에 최상단으로 나오도록 설정
+
+            save4ajax($(this));
+        });
 
     last_postit.find(".plus").on("click", function () {
         create_postit();
@@ -32,22 +33,14 @@ function postit_event_binding(last_postit) {
 
     last_postit.find(".modify").on("click", function () {
         var postit = $(this).closest(".post-it");
-        postit.find(".post-it_editor").toggle();
-        postit.find(".post-it_view").toggle();
+        postit_content_toggle(postit);
         postit.find(".save").toggle();     //저장 버튼 토글
         $(this).toggle();                                       // 수정 버튼 토글
 
-        // textarea 크기 포스트잇 크기에 맞추기
-        if (postit.find(".post-it_editor textarea").height >= postit.find("content").height) {
-            postit.find(".post-it_editor textarea").css({
-                width: postit.width() - 10 + "px",
-                height: postit.height() - 65 + "px"
-            });
+        if (postit.find(".mod_config").css("display") == 'block') {
+            postit_editor_resize_65px(postit);
         } else {
-            postit.find(".post-it_editor textarea").css({
-                width: postit.width() - 10 + "px",
-                height: postit.height() - 40 + "px"
-            });
+            postit_editor_resize_40px(postit);
         }
 
         postit.find(".post-it_view").css({
@@ -75,15 +68,12 @@ function postit_event_binding(last_postit) {
 
         $(this).toggle();                   // 저장 버튼 토글
         postit.find(".modify").toggle();    // 수정 버튼 토글
-        postit.find(".post-it_editor").toggle();
-        postit.find(".post-it_view").toggle();
+        postit_content_toggle(postit);
 
         save4ajax(postit);
 
-        if (postit.find(".post-it_view").height >= postit.find("content").height) {
-            postit.find(".post-it_view").css({
-                height: postit.height() - 65 + "px"
-            });
+        if (postit.find(".mod_config").css("display") == 'block') {
+            postit_view_resize_65px(postit);
         }
     });
 
@@ -91,19 +81,11 @@ function postit_event_binding(last_postit) {
         var postit = $(this).closest(".post-it");
 
         if (postit.find(".mod_config").css("display") == 'block') {
-            postit.find(".post-it_editor textarea").css({
-                height: postit.height() - 40 + "px"
-            });
-            postit.find(".post-it_view").css({
-                height: postit.height() - 40 + "px"
-            });
+            postit_editor_resize_40px(postit);
+            postit_view_resize_40px(postit);
         } else {
-            postit.find(".post-it_editor textarea").css({
-                height: postit.height() - 65 + "px"
-            });
-            postit.find(".post-it_view").css({
-                height: postit.height() - 65 + "px"
-            });
+            postit_editor_resize_65px(postit);
+            postit_view_resize_65px(postit);
         }
 
         postit.find(".mod_config").toggle();
@@ -122,15 +104,9 @@ function postit_event_binding(last_postit) {
             last_postit.find(".mod_config").toggle();
         }
 
-        //포스트잇 사이즈 맞춰서 textarea 사이즈도 변경
-        $(this).find(".post-it_editor textarea").css({
-            width: $(this).width() - 10 + "px",
-            height: $(this).height() - 40 + "px"
-        });
-
-        $(this).find(".post-it_view").css({
-            height: $(this).height() - 40 + "px"
-        });
+        //포스트잇 사이즈 맞춰서 textarea, view 사이즈도 변경
+        postit_editor_resize_40px($(this));
+        postit_view_resize_40px($(this));
     });
 
     last_postit.find(".color-box").on("click", function () {
@@ -182,7 +158,7 @@ function save4ajax(postit) {
             c_color: c_color,
             width: width,
             height: height,
-            z_idx:z_idx
+            z_idx: z_idx
         }),
         success: function () {
             // textarea로 저장된 값에서 \n을 <br> 태그로 변환
@@ -242,6 +218,7 @@ function remove4ajax(postit) {
 
 function list4Ajax() {
     var url = "/postit/list";
+    var max_z_idx = 1;
 
     $.getJSON(url, function (data) {
 
@@ -265,15 +242,20 @@ function list4Ajax() {
 
                 last_postit.find(".header").css("background-color", this.h_color);
 
-                last_postit.find(".post-it_view").css({
-                    height: this.height - 40 + "px"
-                });
+                postit_view_resize_40px(last_postit);
 
                 last_postit.css("z-index", this.z_idx);
-                css_postit_idx = this.z_idx;
+
+                if (max_z_idx < this.z_idx) {
+                    max_z_idx = this.z_idx;
+                }
+
                 postit_event_binding(last_postit);
             });
         }
+
+        css_postit_idx = max_z_idx + 1;
+
     });
 }
 
@@ -320,8 +302,11 @@ function makePostit(data) {
         + "<div class='color-box gray' id='gray'>"
         + "</div>"
         + "&nbsp"
+        + "<div class='color-box puple' id='puple'>"
         + "</div>"
-        + "<div class='content'>"
+        + "&nbsp"
+        + "</div>"
+        + "<div class='content_body'>"
         + "<div class='post-it_editor' style='display: none;'>"
         + "<textarea name='content' id='ckeditor' cols='15' rows='5'>"
         + ((data.content == undefined) ? '' : data.content)
@@ -334,3 +319,37 @@ function makePostit(data) {
 
     return postit;
 }
+
+function postit_content_toggle(postit) {
+    postit.find(".post-it_editor").toggle();
+    postit.find(".post-it_view").toggle();
+}
+
+function postit_editor_resize_40px(postit) {
+    postit.find(".post-it_editor textarea").css({
+        width: postit.width() - 10 + "px",
+        height: postit.height() - 40 + "px"
+    });
+}
+
+function postit_editor_resize_65px(postit) {
+    postit.find(".post-it_editor textarea").css({
+        width: postit.width() - 10 + "px",
+        height: postit.height() - 65 + "px"
+    });
+}
+
+function postit_view_resize_65px(postit) {
+    postit.find(".post-it_view").css({
+        width: postit.width() - 10 + "px",
+        height: postit.height() - 65 + "px"
+    });
+}
+
+function postit_view_resize_40px(postit) {
+    postit.find(".post-it_view").css({
+        width: postit.width() - 10 + "px",
+        height: postit.height() - 40 + "px"
+    });
+}
+

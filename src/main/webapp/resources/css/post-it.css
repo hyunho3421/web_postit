@@ -113,7 +113,7 @@
     background-color: #D1B2FF;
 }
 
-.post-it .content {
+.post-it .content_body {
     padding: 5px 5px 5px 5px;
 }
 
@@ -125,7 +125,7 @@
     overflow: auto;
 }
 
-.post-it .content .post-it_view {
+.post-it .content_body .post-it_view {
     word-break: break-all;
     overflow-y: auto;
 

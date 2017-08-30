@@ -48,6 +48,8 @@ function Color() {
             this.red();
         } else if (selectColor == "gray") {
             this.gray();
+        } else if (selectColor == "puple") {
+            this.puple();
         }
 
         var postit = obj.closest(".post-it");
