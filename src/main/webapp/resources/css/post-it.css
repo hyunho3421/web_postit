@@ -118,6 +118,8 @@
 }
 
 .post-it_editor textarea {
+    font-size: 16px;
+    font-weight: bold;
     background-color: transparent;
     border: none;
     outline: none;
@@ -126,6 +128,8 @@
 }
 
 .post-it .content_body .post-it_view {
+    font-size: 16px;
+    font-weight: bold;
     word-break: break-all;
     overflow-y: auto;
 

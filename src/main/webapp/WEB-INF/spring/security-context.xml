@@ -35,7 +35,7 @@
 
 		<!-- 동시 세션 제어 (중복 로그인) -->
 		<session-management invalid-session-url="/signin?error=session_timeout">
-			<concurrency-control max-sessions="1" expired-url="/signin?error=duplicate_login"/>
+			<concurrency-control max-sessions="1" expired-url="/signin?error=duplicate_login" />
 		</session-management>
 
 		<!-- enable csrf protection -->

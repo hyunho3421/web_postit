@@ -169,7 +169,6 @@ function save4ajax(postit) {
         error: function (xhr) {
             //FIXME: 세션 만료 여부, 중복로그인 여부 판별할수 있도록 수정
             var code = xhr.status;
-            console.log(code);
 
             if(code == 405) {
                 alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.")
@@ -216,7 +215,7 @@ function create4ajax(postit) {
         error: function (xhr) {
             //FIXME: 세션 만료 여부, 중복로그인 여부 판별할수 있도록 수정
             var code = xhr.status;
-            console.log(code);
+
             if(code == 405) {
                 alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.")
                 location.href = "/signin";
@@ -244,7 +243,7 @@ function remove4ajax(postit) {
         error: function (xhr) {
             //FIXME: 세션 만료 여부, 중복로그인 여부 판별할수 있도록 수정
             var code = xhr.status;
-            console.log(code);
+
             if(code == 405) {
                 alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.")
                 location.href = "/signin";
