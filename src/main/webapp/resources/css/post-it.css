@@ -109,7 +109,7 @@
     background-color: #BDBDBD;
 }
 
-.puple {
+.purple {
     background-color: #D1B2FF;
 }
 
@@ -125,6 +125,8 @@
     outline: none;
     resize:none;
     overflow: auto;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
 }
 
 .post-it .content_body .post-it_view {

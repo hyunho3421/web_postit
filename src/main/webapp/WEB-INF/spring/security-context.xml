@@ -17,7 +17,6 @@
 		<intercept-url pattern="/signin" access="isAnonymous()" />
 		<intercept-url pattern="/" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/postit/**" access="hasRole('ROLE_USER')" />
-
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/static/**" access="permitAll" />
 

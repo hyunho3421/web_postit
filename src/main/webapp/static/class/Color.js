@@ -29,7 +29,7 @@ function Color() {
         this.c_color = "#BDBDBD";
     }
 
-    this.puple = function () {
+    this.purple = function () {
         this.h_color = "#D192FF";
         this.c_color = "#D1B2FF";
     }
@@ -48,8 +48,8 @@ function Color() {
             this.red();
         } else if (selectColor == "gray") {
             this.gray();
-        } else if (selectColor == "puple") {
-            this.puple();
+        } else if (selectColor == "purple") {
+            this.purple();
         }
 
         var postit = obj.closest(".post-it");

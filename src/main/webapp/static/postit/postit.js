@@ -23,8 +23,6 @@ function postit_event_binding(last_postit) {
         .mousedown(function () {    // mousedown 이벤트 생성
             $(this).css('z-index', css_postit_idx); // 클릭한 이미지만 z-index 증가시킴
             css_postit_idx++;   // 그러면 이미지가 겹칠경우 클릭한 것이 항상 위에 표시됨
-
-            // save4ajax($(this));
         });
 
     last_postit.find(".plus").on("click", function () {
@@ -34,8 +32,8 @@ function postit_event_binding(last_postit) {
     last_postit.find(".modify").on("click", function () {
         var postit = $(this).closest(".post-it");
         postit_content_toggle(postit);
-        postit.find(".save").toggle();     //저장 버튼 토글
-        $(this).toggle();                                       // 수정 버튼 토글
+        postit.find(".save").toggle();
+        $(this).toggle();
 
         if (postit.find(".mod_config").css("display") == 'block') {
             postit_editor_resize_65px(postit);
@@ -58,7 +56,7 @@ function postit_event_binding(last_postit) {
 
         var postit = $(this).closest(".post-it");
 
-        remove4ajax(postit)
+        remove4ajax(postit);
 
         postit.remove();
     });
@@ -340,7 +338,7 @@ function makePostit(data) {
         + "<div class='color-box gray' id='gray'>"
         + "</div>"
         + "&nbsp"
-        + "<div class='color-box puple' id='puple'>"
+        + "<div class='color-box purple' id='purple'>"
         + "</div>"
         + "&nbsp"
         + "</div>"
