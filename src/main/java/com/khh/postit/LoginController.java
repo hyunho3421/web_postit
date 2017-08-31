@@ -36,8 +36,8 @@ public class LoginController {
     private UserDetailService userDetailService;
 
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
-    public String signInGET(@ModelAttribute("dto") LoginDTO dto) {
-        logger.info("[info] loginGET ...");
+    public String signInGET(@ModelAttribute("dto") LoginDTO dto, @RequestParam(required = false) String error, Model model) {
+        model.addAttribute("error", error);
 
         return "/login/signin";
     }
@@ -61,19 +61,17 @@ public class LoginController {
         HttpSession session = request.getSession(true);
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
-        return "redirect:/";
+        return "redirect:/postit/";
     }
 
-    @ResponseBody
     @RequestMapping(value = "/signup/id/{id}", method = RequestMethod.GET)
     public ResponseEntity<String> checkExistID(@PathVariable("id") String id) throws Exception{
         User isExistUser = userService.findByID(id);
 
         if (isExistUser != null) {
-            return new ResponseEntity<String>("existID", HttpStatus.OK);
+            return new ResponseEntity<>("existID", HttpStatus.OK);
         }
 
-        return new ResponseEntity<String>("notExistID", HttpStatus.OK);
+        return new ResponseEntity<>("notExistID", HttpStatus.OK);
     }
-
 }

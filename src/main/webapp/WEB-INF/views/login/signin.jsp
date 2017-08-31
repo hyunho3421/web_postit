@@ -8,8 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
-    <title></title>
+    <title>Post-it</title>
     <link rel="stylesheet" href="/resources/css/bootstrap.css" />
+    <link rel="icon" type="image/png"  href="/favicon.ico"/>
 </head>
 <body>
 <div class="container">
@@ -49,6 +50,13 @@
 <script src="/resources/js/bootstrap.js" ></script>
 <script src="/static/login/signin.js"></script>
 <script>
+    var error = '${error}';
+
+    if (error == 'login_fail') {
+        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+    } else if (error == 'duplicate_login') {
+        alert('다른 PC에서 로그인했습니다.');
+    }
 </script>
 </body>
 </html>

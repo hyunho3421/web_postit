@@ -24,7 +24,7 @@ function postit_event_binding(last_postit) {
             $(this).css('z-index', css_postit_idx); // 클릭한 이미지만 z-index 증가시킴
             css_postit_idx++;   // 그러면 이미지가 겹칠경우 클릭한 것이 항상 위에 표시됨
 
-            save4ajax($(this));
+            // save4ajax($(this));
         });
 
     last_postit.find(".plus").on("click", function () {
@@ -123,6 +123,8 @@ function create_postit() {
 
     var last_postit = $(".container").children(":last");
 
+    last_postit.css("z-index", css_postit_idx);
+
     create4ajax(last_postit);
 
     postit_event_binding(last_postit);
@@ -163,6 +165,18 @@ function save4ajax(postit) {
         success: function () {
             // textarea로 저장된 값에서 \n을 <br> 태그로 변환
             postit.find(".post-it_view").html(content.replace(/\r\n|\r|\n/g, "<br />"));
+        },
+        error: function (xhr) {
+            //FIXME: 세션 만료 여부, 중복로그인 여부 판별할수 있도록 수정
+            var code = xhr.status;
+            console.log(code);
+
+            if(code == 405) {
+                alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.")
+                location.href = "/signin";
+            } else {
+                alert("저장을 실패했습니다.")
+            }
         }
     });
 }
@@ -176,6 +190,8 @@ function create4ajax(postit) {
     var pos_y = pos.top;
     var h_color = color.h_color;
     var c_color = color.c_color;
+    var z_idx = postit.css("z-index");
+    console.log(z_idx);
 
     $.ajax({
         url: "/postit/create" + csrf,
@@ -189,12 +205,24 @@ function create4ajax(postit) {
             pos_x: pos_x,
             pos_y: pos_y,
             h_color: h_color,
-            c_color: c_color
+            c_color: c_color,
+            z_idx: z_idx
         }),
         success: function (result) {
             postit.attr("data-id", result);
             postit.css("background-color", c_color);
             postit.find(".header").css("background-color", h_color);
+        },
+        error: function (xhr) {
+            //FIXME: 세션 만료 여부, 중복로그인 여부 판별할수 있도록 수정
+            var code = xhr.status;
+            console.log(code);
+            if(code == 405) {
+                alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.")
+                location.href = "/signin";
+            } else {
+                alert("생성을 실패했습니다.")
+            }
         }
     });
 }
@@ -212,6 +240,17 @@ function remove4ajax(postit) {
             "X-HTTP-Method-Override": "POST"
         },
         success: function (result) {
+        },
+        error: function (xhr) {
+            //FIXME: 세션 만료 여부, 중복로그인 여부 판별할수 있도록 수정
+            var code = xhr.status;
+            console.log(code);
+            if(code == 405) {
+                alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.")
+                location.href = "/signin";
+            } else {
+                alert("삭제를 실패했습니다.")
+            }
         }
     });
 }
@@ -273,7 +312,7 @@ function makePostit(data) {
         + "<div class='modify'>"
         + "<span class='glyphicon glyphicon-pencil'></span>"
         + "</div>"
-        + "<div class='save' style='display: none;'>"
+        + "<div class='save' style='display:none;'>"
         + "<span class='glyphicon glyphicon-ok'></span>"
         + "</div>"
         + "&nbsp"

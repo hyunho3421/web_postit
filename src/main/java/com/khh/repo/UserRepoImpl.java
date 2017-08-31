@@ -54,5 +54,5 @@ public class UserRepoImpl implements UserRepo{
 	public int count() {
 		return sqlSession.selectOne(namespace + ".count");
 	}
-	
+
 }

@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,13 +21,16 @@ public class UserRepoTest {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+
     User user;
 
     @Before
     public void setUp() {
         user = new User();
         user.setId("haha9006");
-        user.setPassword("3421");
+        user.setPassword(passwordEncoder.encode("asd1234"));
         user.setName("hyunho");
         user.setEmail("hyunho@dayside.co.kr");
     }

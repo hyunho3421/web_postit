@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.khh.mapper.PostItMapper">
     <insert id="create" keyProperty="id" useGeneratedKeys="true">
-		insert into PostIt(user_id, content, pos_x, pos_y, c_color, h_color, width, height)
-		values(#{user_id}, #{content}, #{pos_x}, #{pos_y}, #{c_color}, #{h_color}, 150, 150)
+		insert into PostIt(user_id, content, pos_x, pos_y, c_color, h_color, width, height, z_idx)
+		values(#{user_id}, #{content}, #{pos_x}, #{pos_y}, #{c_color}, #{h_color}, 150, 150, #{z_idx})
 	</insert>
 
     <select id="findById" resultType="PostIt">
